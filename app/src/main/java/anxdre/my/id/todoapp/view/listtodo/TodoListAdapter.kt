@@ -36,6 +36,10 @@ class TodoListAdapter(private val onCheck: (Todo) -> Unit) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
         fun createView(position: Int) {
+            if (dataset[position].isDone == true){
+                return
+            }
+
             itemBinding.tvTitle.text = dataset[position].title
             itemBinding.tvTitle.setOnCheckedChangeListener { buttonView, isChecked ->
                 onCheck(dataset[position])

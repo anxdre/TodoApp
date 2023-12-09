@@ -4,23 +4,28 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.RadioGroup.OnCheckedChangeListener
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
 import anxdre.my.id.todoapp.R
 import anxdre.my.id.todoapp.data.database.TodoDb
 import anxdre.my.id.todoapp.data.database.model.Todo
 import anxdre.my.id.todoapp.databinding.FragmentCreateTodoBinding
+import anxdre.my.id.todoapp.util.buildDb
 
-class CreateTodoFragment : Fragment(R.layout.fragment_create_todo) {
+class CreateTodoFragment : Fragment(R.layout.fragment_create_todo),OnCheckedChangeListener {
     private var _binding: FragmentCreateTodoBinding? = null;
     private val binding get() = _binding!!
     private val viewModel by lazy {
         CreateTodoViewModel(
-            TodoDb.getInstance(requireActivity().applicationContext)
+            buildDb(requireActivity().applicationContext)
         )
     }
+    private var selectedPriority = "low"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +45,8 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo) {
                     Todo(
                         0,
                         this.etTitle.text.toString(),
-                        this.etDesc.text.toString()
+                        this.etDesc.text.toString(),
+                        priority = selectedPriority
                     )
                 )
                 Toast.makeText(requireContext(), "success add to list", Toast.LENGTH_SHORT).show()
@@ -49,6 +55,9 @@ class CreateTodoFragment : Fragment(R.layout.fragment_create_todo) {
         }
     }
 
+    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+        selectedPriority = group?.findViewById<RadioButton>(checkedId)?.text.toString()
+    }
 
     override fun onDestroy() {
         _binding = null

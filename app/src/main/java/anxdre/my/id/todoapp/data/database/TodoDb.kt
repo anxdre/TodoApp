@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import anxdre.my.id.todoapp.data.database.dao.TodoDao
 import anxdre.my.id.todoapp.data.database.model.Todo
+import anxdre.my.id.todoapp.util.MIGRATION_1_2
 
-@Database(entities = [Todo::class], version = 1)
+@Database(entities = [Todo::class], version = 2)
 abstract class TodoDb : RoomDatabase() {
     abstract fun todoDao(): TodoDao
 
@@ -27,10 +28,8 @@ abstract class TodoDb : RoomDatabase() {
 
                 if (instance == null) {
                     instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        TodoDb::class.java,
-                        Database_NAME
-                    ).build()
+                        context.applicationContext, TodoDb::class.java, Database_NAME
+                    ).addMigrations(MIGRATION_1_2).build()
 
                     INSTANCE = instance
                 }

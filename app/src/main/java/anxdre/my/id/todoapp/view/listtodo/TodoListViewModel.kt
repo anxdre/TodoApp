@@ -23,9 +23,9 @@ class TodoListViewModel(private val roomDb: TodoDb) : ViewModel() {
         }
     }
 
-    fun deleteItem(data:Todo) {
+    fun updateItem(data:Todo) {
         viewModelScope.launch(Dispatchers.IO) {
-            roomDb.todoDao().delete(data)
+            roomDb.todoDao().update(data)
         }
     }
 }

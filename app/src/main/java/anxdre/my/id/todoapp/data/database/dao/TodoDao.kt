@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import anxdre.my.id.todoapp.data.database.model.Todo
 import kotlinx.coroutines.flow.Flow
 
@@ -21,4 +22,7 @@ interface TodoDao {
 
     @Delete
     fun delete(todo: Todo)
+
+    @Update
+    fun update(todo: Todo)
 }

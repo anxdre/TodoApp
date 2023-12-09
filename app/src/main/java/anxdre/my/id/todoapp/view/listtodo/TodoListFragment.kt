@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.room.Room
 import anxdre.my.id.todoapp.R
 import anxdre.my.id.todoapp.data.database.TodoDb
 import anxdre.my.id.todoapp.databinding.FragmentTodoListBinding
@@ -32,7 +31,8 @@ class TodoListFragment : Fragment(R.layout.fragment_todo_list) {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = TodoListAdapter{
-            viewModel.deleteItem(it)
+            it.isDone = true
+            viewModel.updateItem(it)
         }
         binding.rvMain.adapter = adapter
 
